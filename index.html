@@ -23,9 +23,13 @@
             }
             function bottom(){
             	layout.style.flexFlow = "column nowrap"
+                document.querySelector(".monaco-editor").style.width = "1px";
+                document.querySelector(".monaco-editor").style.height = "1px"; // fix trust
             }
             function right(){
             	layout.style.flexFlow = "row nowrap"
+                document.querySelector(".monaco-editor").style.width = "1px";
+                document.querySelector(".monaco-editor").style.height = "1px"; // it somehow kinda works
             }
         </script>
 
