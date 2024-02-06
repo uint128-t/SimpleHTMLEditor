@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simple HTML Editor</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	</head>
+	<body style="background-color:black;margin:0;padding:0;display:flex;flex-flow:column nowrap;width:100vw;height:100vh;">
+    	<div style="display:flex;width:100%;flex-flow: row nowrap;justify-content:center;">
+    		<button onclick="run()">Run</button>
+    		<button onclick="bottom()">Show on bottom</button>
+    		<button onclick="right()">Show on right</button>
+    		<button>Hide</button>
+        </div>
+        <div id="layout" style="display:flex;flex-flow:column nowrap;align-items:stretch;flex:1;">
+            <div id="container" style="flex:1;"></div>
+            <iframe id="codep" style="background-color: #fff;flex:1;" frameBorder="0"></iframe>
+        </div>
+        <script>
+        	var layout = document.getElementById("layout")
+            var output = document.getElementById("codep")
+            function run(){
+            	output.contentDocument.write(meditor.getValue())
+            }
+            function bottom(){
+            	layout.style.flexFlow = "column nowrap"
+            }
+            function right(){
+            	layout.style.flexFlow = "row nowrap"
+            }
+        </script>
+
+        <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.js"></script> -->
+        
+		<script>
+            require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
+window.MonacoEnvironment = { getWorkerUrl: () => proxy };
+
+let proxy = URL.createObjectURL(new Blob([`
+	self.MonacoEnvironment = {
+		baseUrl: 'https://unpkg.com/monaco-editor@latest/min/'
+	};
+	importScripts('https://unpkg.com/monaco-editor@latest/min/vs/base/worker/workerMain.js');
+`], { type: 'text/javascript' }));
+
+var meditor = null;
+            
+require(["vs/editor/editor.main"], function () {
+	meditor = monaco.editor.create(document.getElementById('container'), {
+		value: `<!DOCTYPE html>
+<html>
+    <head>
+        <title>Document</title>
+    </head>
+    <body>
+        Hello world!
+    </body>
+</html>`,
+		language: 'html',
+		theme: 'hc-black',
+        font:"Consolas",
+        automaticLayout: true
+	});
+    onclick = (e)=>{top.toTop("code")}
+    console.log(meditor)
+    meditor.onDidChangeModelContent((e)=>{
+        localStorage["$code"] = meditor.getValue()
+    })
+    meditor.setValue(localStorage["$code"]?localStorage["$code"]:meditor.getValue())
+});
+		</script>
+	</body>
+    <style>
+        html,body{
+            padding: 0;
+            margin: 0;
+        }
+        button{
+        	color:black;
+            background-color:white;
+        }
+    </style>
+</html>
