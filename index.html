@@ -19,7 +19,7 @@
         	var layout = document.getElementById("layout")
             var output = document.getElementById("codep")
             function run(){
-            	output.contentDocument.write(meditor.getValue())
+            	output.srcdoc = meditor.getValue()
             }
             function bottom(){
             	layout.style.flexFlow = "column nowrap"
