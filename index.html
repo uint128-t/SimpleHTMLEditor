@@ -65,7 +65,6 @@ require(["vs/editor/editor.main"], function () {
         font:"Consolas",
         automaticLayout: true
 	});
-    onclick = (e)=>{top.toTop("code")}
     console.log(meditor)
     meditor.onDidChangeModelContent((e)=>{
         localStorage["$code"] = meditor.getValue()
